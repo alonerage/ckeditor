@@ -28,16 +28,16 @@ module Ckeditor
       end
 
       def js_replace(dom_id, options = nil)
-        js = ["if (typeof CKEDITOR != 'undefined') {"]
+        js = ["$('document').ready(function(){if (typeof CKEDITOR != 'undefined') {"]
 
         if options && !options.keys.empty?
           js_options = ActiveSupport::JSON.encode(options)
-          js << "$('document').ready(function(){CKEDITOR.replace('#{dom_id}', #{js_options});});"
+          js << "CKEDITOR.replace('#{dom_id}', #{js_options});"
         else
-          js << "$('document').ready(function(){CKEDITOR.replace('#{dom_id}');});"
+          js << "CKEDITOR.replace('#{dom_id}');"
         end
 
-        js << "}"
+        js << "}})"
         js.join(" ").html_safe
       end
 
